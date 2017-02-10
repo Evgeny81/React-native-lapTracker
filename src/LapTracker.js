@@ -9,19 +9,28 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight,
 } from 'react-native';
 
 export default class LapTracker extends Component {
     startStopButton() {
-        return <View style={styles.buttons}>
+        return (<TouchableHighlight
+                    underlayColor='red'
+                    onPress={this.handleStartPress}
+                    >
                    <Text>Start</Text>
-               </View>
+               </TouchableHighlight>)
     }
+
     lapButton() {
         return <View style={styles.buttons}>
                    <Text>Lap</Text>
                </View>
+    }
+
+    handleStartPress() {
+        alert('start was pressed')
     }
 
     border(color) {
@@ -55,11 +64,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'stretch',
-        backgroundColor: 'blue'
     },
     header: {
         flex: 1,
-        backgroundColor: 'grey'
     },
     footer: {
         flex: 1,
