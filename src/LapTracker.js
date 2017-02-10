@@ -13,11 +13,20 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
+import formatTime from 'minutes-seconds-milliseconds';
+
 export default class LapTracker extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            timeElapsed: 0
+        }
+    }
+
     startStopButton() {
         return (<TouchableHighlight
                     underlayColor='red'
-                    onPress={this.handleStartPress}
+                    onPress={this.handleStartPress.bind(this)}
                     >
                    <Text>Start</Text>
                </TouchableHighlight>)
@@ -30,7 +39,13 @@ export default class LapTracker extends Component {
     }
 
     handleStartPress() {
-        alert('start was pressed')
+        let startTime = new Date();
+        setInterval(() => {
+            this.setState({
+                timeElapsed: new Date() - startTime,
+            });
+        }, 30)
+
     }
 
     border(color) {
@@ -45,7 +60,9 @@ export default class LapTracker extends Component {
       <View style={styles.container}>
           <View style={[styles.header, this.border('yellow')]}>
             <View style={[styles.timerWrapper, this.border('red')]}>
-                <Text> 00:00.00</Text>
+                <Text>
+                 {formatTime(this.state.timeElapsed)}
+                 </Text>
             </View>
             <View style={[styles.buttonWrapper, this.border('green')]}>
                 {this.startStopButton()}
