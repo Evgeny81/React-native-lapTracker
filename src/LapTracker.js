@@ -20,14 +20,15 @@ export default class LapTracker extends Component {
         super(props);
         this.state = {
             timeElapsed: null,
-            running: false
+            running: false,
+            startTime: 0
         }
     }
 
     startStopButton() {
         let style = this.state.running ? styles.buttonStop : styles.buttonStart;
         return (<TouchableHighlight
-                    underlayColor='red'
+                    underlayColor='gray'
                     onPress={this.handleStartPress.bind(this)}
                     style={[styles.button, style]}
                     >
@@ -38,9 +39,21 @@ export default class LapTracker extends Component {
     }
 
     lapButton() {
-        return <View style={styles.button}>
+        return <TouchableHighlight
+                style={styles.button}
+                underlayColor='gray'
+                onPress={this.handleLapPress.bind(this)}
+                >
                    <Text>Lap</Text>
-               </View>
+               </TouchableHighlight>
+    }
+
+    handleLapPress() {
+        let lap = this.state.timeElapsed;
+
+        this.setState({
+            startTime: new Date()
+        });
     }
 
     handleStartPress() {
@@ -51,14 +64,15 @@ export default class LapTracker extends Component {
             });
             return;
         }
-        let startTime = new Date();
+        this.setState({
+            startTime: new Date()
+        });
         this.interval = setInterval(() => {
             this.setState({
-                timeElapsed: new Date() - startTime,
+                timeElapsed: new Date() - this.state.startTime,
                 running: true
             });
         }, 30)
-
     }
 
   render() {
