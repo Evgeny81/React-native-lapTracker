@@ -21,7 +21,8 @@ export default class LapTracker extends Component {
         this.state = {
             timeElapsed: null,
             running: false,
-            startTime: 0
+            startTime: null,
+            laps: []
         }
     }
 
@@ -52,7 +53,8 @@ export default class LapTracker extends Component {
         let lap = this.state.timeElapsed;
 
         this.setState({
-            startTime: new Date()
+            startTime: new Date();
+            laps: this.state.laps.concat([lap])
         });
     }
 
@@ -75,6 +77,19 @@ export default class LapTracker extends Component {
         }, 30)
     }
 
+    laps() {
+        return this.state.laps.map(function(time, index) {
+            return <View style={styles.lap}>
+                <Text style={styles.lapText}>
+                    Lap #{index +1}
+                </Text>
+                <Text style={styles.lapText}>
+                    {formatTime(time)}
+                </Text>
+            </View>
+        })
+    }
+
   render() {
     return (
       <View style={styles.container}>
@@ -90,7 +105,7 @@ export default class LapTracker extends Component {
             </View>
           </View>
         <View style={styles.footer}>
-
+            {this.laps()}
         </View>
       </View>
     );
@@ -137,7 +152,13 @@ const styles = StyleSheet.create({
     buttonStop: {
         borderColor: '#CC0000'
     },
-
+    lap: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    lapText: {
+        fontSize: 30
+    }
 });
 
 AppRegistry.registerComponent('LapTracker', () => LapTracker);
