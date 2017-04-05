@@ -1,2 +1,2 @@
 # React-native-lapTracker
-A small app which let use to track time.
+A small app which let user to track time.
